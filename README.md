@@ -11,9 +11,9 @@ PRCpy is a Python package designed to ease experimental data processing for phys
 
 PRCpy requires Python 3.9 or later. You can install PRCpy using Poetry by adding it to your project's dependencies:
 
-## General usuage overview
+## General usage overview
 
-1. Define data path (data files must contain "scan" in their file names)
+1. Define data path 
 2. Define pre-processing parameters 
 3. Create RC pipeline
 4. Define target and add to pipeline
@@ -21,17 +21,20 @@ PRCpy requires Python 3.9 or later. You can install PRCpy using Poetry by adding
 6. Define RC parameters
 7. Run RC
 
-Here's an basic example with PRCpy:
+## Example:
 
 ### import PRCpy
 ```python
-from prcpy.RC.Pipeline_RC import 
-from prcpy.TrainingModels.RegressionModels import
+from prcpy.RC.Pipeline_RC import Pipeline
+from prcpy.TrainingModels.RegressionModels import define_Ridge
+from prcpy.Maths.Target_functions import get_mackey_glass, get_square_waves
 ```
 
 ### Define your data directory and processing parameters
+**Note: Data files must contain _"scan"_ in their file names.**
+See [examples/data](examples/data) for example data files.
 ```python
-data_dir_path = "examples/data/mg_mapping/Cu2OSeO3/skyrmion"
+data_dir_path = "your/data/path"
 process_params = {
     "Xs": "Frequency",
     "Readouts": "Spectra",
@@ -50,10 +53,67 @@ process_params = {
 ```
 
 ### Create RC pipeline
-rc = Pipeline_RC(data_dir_path, process_params)
+```python
+rc_pipeline = Pipeline(data_dir_path, process_params)
+```
+
+### Target generation
+
+#### Transformation
+```python
+
+period = 10
+sample_spacing = rc_pipeline.get_sample_spacing(period)
+target_values = get_square_waves(sample_spacing, period, norm=True)
+```
+
+#### Forecasting
+```python
+target_values = get_mackey_glass(norm=True)
+```
+
+#### Add target to pipeline
+```python
+rc_pipeline.define_target(target_values)
+```
+
+### Define model
+```python
+model_params = {
+        "alpha": 1e-3,
+        "fit_intercept": True,
+        "copy_X": True,
+        "max_iter": None,
+        "tol": 0.0001,
+        "solver": "auto",
+        "positive": False,
+        "random_state": None,
+    }
+model = define_Ridge(model_params)
+```
+
+### Define RC parameters
+Set `"tau": 0` for transformation.
+
+```python
+rc_params = {
+        "model": model,
+        "tau": 10,
+        "test_size": 0.3,
+        "error_type": "MSE"
+    }
+
+```
+
+### Run RC
+```python
+rc_pipeline.run()
+```
 
 ### Get results
-
+```python
+results = rc_pipeline.get_rc_results()
+```
 
 ## Contributing
 
