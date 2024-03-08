@@ -23,14 +23,14 @@ PRCpy requires Python 3.9 or later. You can install PRCpy using Poetry by adding
 
 ## Example:
 
-### import PRCpy
+#### import PRCpy
 ```python
 from prcpy.RC.Pipeline_RC import Pipeline
 from prcpy.TrainingModels.RegressionModels import define_Ridge
 from prcpy.Maths.Target_functions import get_mackey_glass, get_square_waves
 ```
 
-### Define your data directory and processing parameters
+#### Define data directory and processing parameters
 **Note: Data files must contain _"scan"_ in their file names.**
 See [examples/data](examples/data) for example data files.
 ```python
@@ -52,14 +52,14 @@ process_params = {
 }
 ```
 
-### Create RC pipeline
+#### Create RC pipeline
 ```python
 rc_pipeline = Pipeline(data_dir_path, process_params)
 ```
 
-### Target generation
+#### Target generation
 
-#### Transformation
+##### Transformation
 ```python
 
 period = 10
@@ -67,17 +67,17 @@ sample_spacing = rc_pipeline.get_sample_spacing(period)
 target_values = get_square_waves(sample_spacing, period, norm=True)
 ```
 
-#### Forecasting
+##### Forecasting
 ```python
 target_values = get_mackey_glass(norm=True)
 ```
 
-#### Add target to pipeline
+##### Add target to pipeline
 ```python
 rc_pipeline.define_target(target_values)
 ```
 
-### Define model
+#### Define model
 ```python
 model_params = {
         "alpha": 1e-3,
@@ -92,7 +92,7 @@ model_params = {
 model = define_Ridge(model_params)
 ```
 
-### Define RC parameters
+#### Define RC parameters
 Set `"tau": 0` for transformation.
 
 ```python
@@ -105,12 +105,12 @@ rc_params = {
 
 ```
 
-### Run RC
+#### Run RC
 ```python
 rc_pipeline.run()
 ```
 
-### Get results
+#### Get results
 ```python
 results = rc_pipeline.get_rc_results()
 ```
