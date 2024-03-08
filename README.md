@@ -16,7 +16,7 @@ PRCpy requires Python 3.9 or later. You can install PRCpy using Poetry by adding
 
 Here's a quick example to get you started with PRCpy:
 
-### import PRCpy
+## import PRCpy
 ```python
 from prcpy.RC.Pipeline_RC import 
 from prcpy.TrainingModels.RegressionModels import
