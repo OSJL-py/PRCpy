@@ -11,10 +11,17 @@ PRCpy is a Python package designed to ease experimental data processing for phys
 
 PRCpy requires Python 3.9 or later. You can install PRCpy using Poetry by adding it to your project's dependencies:
 
+## General usuage overview
 
-## Quick Start
+1. Define data path (data files must contain "scan" in their file names)
+2. Define pre-processing parameters 
+3. Create RC pipeline
+4. Define target and add to pipeline
+5. Define model for training
+6. Define RC parameters
+7. Run RC
 
-Here's a quick example to get you started with PRCpy:
+Here's an basic example with PRCpy:
 
 ### import PRCpy
 ```python
