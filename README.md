@@ -16,13 +16,13 @@ PRCpy requires Python 3.9 or later. You can install PRCpy using Poetry by adding
 
 Here's a quick example to get you started with PRCpy:
 
-# import PRCpy
+## import PRCpy
 ```python
 from prcpy.RC.Pipeline_RC import 
 from prcpy.TrainingModels.RegressionModels import
 ```
 
-# Define your data directory and processing parameters
+## Define your data directory and processing parameters
 ```python
 data_dir_path = "examples/data/mg_mapping/Cu2OSeO3/skyrmion"
 process_params = {
