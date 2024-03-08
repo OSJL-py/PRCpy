@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from RC.Pipeline_RC import *
-from TrainingModels.RegressionModels import *
+from prcpy.RC.Pipeline_RC import *
+from prcpy.TrainingModels.RegressionModels import *
+
 
 if __name__ == "__main__":
 
