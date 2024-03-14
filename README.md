@@ -39,7 +39,7 @@ process_params = {
     "Xs": "Frequency",
     "Readouts": "Spectra",
     "remove_bg": True,
-    "bg_fname": "BG_450mT_10to60GHz_4K.txt",
+    "bg_fname": "background_data.txt",
     "smooth": False,
     "smooth_win": 51,
     "smooth_rank": 4,
