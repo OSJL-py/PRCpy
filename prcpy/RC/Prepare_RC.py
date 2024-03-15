@@ -3,6 +3,7 @@ comment
 """
 
 import pandas as pd
+import os
 from scipy.signal import savgol_filter
 
 from ..DataHandling.Path_handlers import get_full_paths, get_raw_input_vals
