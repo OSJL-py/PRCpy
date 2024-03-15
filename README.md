@@ -152,8 +152,8 @@ For collaborations or research enquires, please contact [Prof. Hide Kurebayashi]
 
 #### Research articles
 - [Task-adaptive physical reservoir computing](https://www.nature.com/articles/s41563-023-01698-8), O. Lee, et al., Nature Materials (2024).
-- [Neuromorphic Few-Shot Learning: Generalization in Multilayer Physical Neural Networks](https://arxiv.org/abs/2211.06373), K. Stenning, et al., arXiv (2024).
-- [Reconfigurable training and reservoir computing in an artificial spin-vortex ice via spin-wave fingerprinting](https://www.nature.com/articles/s41565-022-01091-7), J. Gartside, et al., Nature Nanotechnology (2024).
+- [Neuromorphic Few-Shot Learning: Generalization in Multilayer Physical Neural Networks](https://arxiv.org/abs/2211.06373), K. Stenning, et al., arXiv (2023).
+- [Reconfigurable training and reservoir computing in an artificial spin-vortex ice via spin-wave fingerprinting](https://www.nature.com/articles/s41565-022-01091-7), J. Gartside, et al., Nature Nanotechnology (2022).
 
 #### Review/perspectives
 - [Perspective on unconventional computing using magnetic skyrmions](https://pubs.aip.org/aip/apl/article/122/26/260501/2900466), O. Lee, et al., Applied Physics Letters (2023).
