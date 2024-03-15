@@ -39,7 +39,7 @@ def get_cos_waves(spacing, period, norm=False, A_min=0, A_max=1):
     wave = np.tile(wave, period*2)
     return get_wave(wave, norm, A_min, A_max)
 
-def get_mackey_glass(norm=False, A_min=0, A_max=1):
-    mgs = np.load('prcpy/Maths/mackey_glass_t17.npy')
-    return get_wave(mgs, norm, A_min, A_max)
+def get_npy_data(dpath, norm=False, A_min=0, A_max=1):
+    data = np.load(dpath)
+    return get_wave(data, norm, A_min, A_max)
 
