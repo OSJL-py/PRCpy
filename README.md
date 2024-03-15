@@ -137,7 +137,7 @@ results = rc_pipeline.get_rc_results()
 
 ## Authors & Maintainers
 
-We are a neuromorphic computing division in the [UCL Spintronics Group](https://www.ucl.ac.uk/spintronics/) at London Centre for Nanotechnology, University College London, UK. For any queries about PRCpy, please contact [Dr. Oscar Lee](zceesjl@ucl.ac.uk). 
+We are a neuromorphic computing division within the [UCL Spintronics Group](https://www.ucl.ac.uk/spintronics/) at London Centre for Nanotechnology, University College London, UK. For any queries about PRCpy, please contact [Dr. Oscar Lee](zceesjl@ucl.ac.uk). 
 
 ## Research enquries
 For collaborations or research enquires, please contact [Prof. Hide Kurebayashi](https://www.ucl.ac.uk/spintronics/people/hidekazu-kurebayashi).
