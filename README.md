@@ -11,15 +11,23 @@ PRCpy is a Python package designed to ease experimental data processing for phys
 
 PRCpy requires Python 3.9 or later.
 
-### Using pip
+#### Using pip
 
 ```bash
 pip install prcpy
 ```
 
-### Using Poetry
+#### Using Poetry
 ```bash
 poetry add prcpy
+```
+
+#### Note
+
+Latest release is always recommended.
+```bash
+PIP: pip install prcpy --upgrade
+POERTY: poetry update prcpy
 ```
 
 ## General usage overview
