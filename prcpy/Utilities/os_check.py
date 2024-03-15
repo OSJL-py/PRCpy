@@ -1,4 +1,3 @@
-import re
 import os
 
 def check_and_create_directory(path):

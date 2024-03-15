@@ -1,5 +1,6 @@
 from scipy import signal
-from Maths.Maths_functions import *
+import numpy as np
+from ..Maths.Maths_functions import normalize_list
 
 pi = np.pi
 

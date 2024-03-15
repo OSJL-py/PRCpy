@@ -1,5 +1,5 @@
-from RC.Prepare_RC import *
-from RC.Perform_RC import *
+from .Prepare_RC import Prepare
+from .Perform_RC import Perform
 
 class Pipeline():
     """

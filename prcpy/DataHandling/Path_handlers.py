@@ -1,6 +1,6 @@
 import os
 import re
-from Utilities.sorting import *
+from ..Utilities.sorting import natural_sort_key
 
 def get_directory_file_names(dir_path):
 

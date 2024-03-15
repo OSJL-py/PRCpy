@@ -1,8 +1,6 @@
 import pyarrow as pa
 from pyarrow import csv
-from Utilities.os_check import *
-
-from DataHandling.Path_handlers import *
+from ..Utilities.os_check import check_and_create_directory
 
 def load_csv(path):
     try:

@@ -5,10 +5,9 @@ comment
 import pandas as pd
 from scipy.signal import savgol_filter
 
-from DataHandling.Path_handlers import *
-from DataHandling.File_handlers import *
-from Maths.Target_functions import *
-from Maths.Maths_functions import *
+from ..DataHandling.Path_handlers import get_full_paths, get_raw_input_vals
+from ..DataHandling.File_handlers import load_csv
+from ..Maths.Maths_functions import normalize_list
 
 class Prepare():
 
