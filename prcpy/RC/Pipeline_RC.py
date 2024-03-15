@@ -1,5 +1,7 @@
+import numpy as np
 from .Prepare_RC import Prepare
 from .Perform_RC import Perform
+from ..Maths.Maths_functions import get_sample_spacing
 
 class Pipeline():
     """
