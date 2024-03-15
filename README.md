@@ -9,7 +9,18 @@ PRCpy is a Python package designed to ease experimental data processing for phys
 
 ## Installation
 
-PRCpy requires Python 3.9 or later. You can install PRCpy using Poetry by adding it to your project's dependencies:
+PRCpy requires Python 3.9 or later.
+
+### Using Poetry
+```bash
+poetry add prcpy
+```
+
+### Using pip
+
+```bash
+pip install prcpy
+```
 
 ## General usage overview
 
@@ -25,7 +36,7 @@ PRCpy requires Python 3.9 or later. You can install PRCpy using Poetry by adding
 
 #### import PRCpy
 ```python
-from prcpy.RC.Pipeline_RC import Pipeline
+from prcpy.RC import Pipeline
 from prcpy.TrainingModels.RegressionModels import define_Ridge
 from prcpy.Maths.Target_functions import get_mackey_glass, get_square_waves
 ```
