@@ -80,7 +80,8 @@ target_values = get_square_waves(sample_spacing, period, norm=True)
 
 ##### Forecasting
 ```python
-target_values = get_mackey_glass(norm=True)
+mg_path = "mackey_glass_t17.npy"
+target_values = get_npy_data(mg_path, norm=True)
 ```
 
 ##### Add target to pipeline
