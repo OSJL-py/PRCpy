@@ -11,7 +11,7 @@ def load_csv(path, delimiter=','):
         print(f"Error loading CSV file: {e}")
         return None
 
-def save_csv(df, save_path, fname=""):
+def save_csv(df, save_path, fname="", delimiter=','):
     try:
         check_and_create_directory(save_path)
 
@@ -19,9 +19,8 @@ def save_csv(df, save_path, fname=""):
             save_path = save_path + fname
 
         table = pa.Table.from_pandas(df)
-        csv.write_csv(table, save_path)
+        csv.write_csv(table, save_path, write_options=csv.WriteOptions(delimiter=delimiter))
 
         print("[SUCCESS] File saved")
     except Exception as e:
         print(f"[ERROR] Failed to save file: {e}")
-
