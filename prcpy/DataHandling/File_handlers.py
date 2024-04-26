@@ -2,9 +2,9 @@ import pyarrow as pa
 from pyarrow import csv
 from ..Utilities.os_check import check_and_create_directory
 
-def load_csv(path):
+def load_csv(path, delimiter=','):
     try:
-        data_table = csv.read_csv(path)
+        data_table = csv.read_csv(path, read_options=csv.ReadOptions(delimiter=delimiter))
         df = data_table.to_pandas()
         return df
     except Exception as e:
