@@ -4,7 +4,7 @@ from ..Utilities.os_check import check_and_create_directory
 
 def load_csv(path, delimiter=','):
     try:
-        data_table = csv.read_csv(path, read_options=csv.ParseOptions(delimiter=delimiter))
+        data_table = csv.read_csv(path, parse_options=csv.ParseOptions(delimiter=delimiter))
         df = data_table.to_pandas()
         return df
     except Exception as e:

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "prcpy"
-version = "0.1.7"
+version = "0.1.9"
 description = ""
 authors = ["Oscar Lee <zceesjl@ucl.ac.uk>"]
 readme = "README.md"
