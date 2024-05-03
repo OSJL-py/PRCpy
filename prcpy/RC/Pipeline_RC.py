@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from .Prepare_RC import Prepare
 from .Perform_RC import Perform
 from ..Maths.Maths_functions import get_sample_spacing
@@ -64,4 +65,10 @@ class Pipeline():
         Returns the readout values.
         """
         return np.array(self.rc_data.get_readout_xs())
+    
+    def get_rc_df(self) -> pd.DataFrame:
+        """
+        Returns the full RC dataframe.
+        """
+        return self.rc_data.rc_df
 
