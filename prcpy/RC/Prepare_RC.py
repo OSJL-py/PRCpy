@@ -41,7 +41,7 @@ class Prepare():
         self.scan_cols = []
         self.readout_xs = []
 
-    def create_experiment_df(self, Xs_idx: str, Readouts_idx: str) -> None:
+    def create_experiment_df(self, Xs_idx: str, Readouts_idx: str, delimiter=",") -> None:
         """
         Creates a DataFrame for the experiment by combining data from multiple files.
 
@@ -56,7 +56,7 @@ class Prepare():
         self.Readouts_idx = Readouts_idx
 
         for idx, fpath in enumerate(self.full_path, start=1):
-            df = load_csv(fpath)[[Xs_idx, Readouts_idx]].rename(columns={Readouts_idx: f'Scan{idx}'})
+            df = load_csv(fpath, delimiter=delimiter)[[Xs_idx, Readouts_idx]].rename(columns={Readouts_idx: f'Scan{idx}'})
             dfs.append(df)
 
         self.rc_df = pd.concat(dfs, axis=1).loc[:,~pd.concat(dfs, axis=1).columns.duplicated()]
@@ -102,7 +102,7 @@ class Prepare():
         self.rc_df = self.rc_df.drop(columns=[self.Xs_idx])
 
         self.transpose_df()
-        self.append_column("Inputs", get_raw_input_vals(self.root_path))
+        # self.append_column("Inputs", get_raw_input_vals(self.root_path))
         self.define_rc_readout()
 
     def transpose_df(self) -> None:

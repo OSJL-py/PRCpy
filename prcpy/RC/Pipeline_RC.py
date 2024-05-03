@@ -14,7 +14,7 @@ class Pipeline():
         self.prepared_data = None
         self.rc_ml = None
         self.rc_data = Prepare(data_dir_path)
-        self.rc_data.create_experiment_df(Xs_idx=self.process_params["Xs"], Readouts_idx=self.process_params["Readouts"])
+        self.rc_data.create_experiment_df(Xs_idx=self.process_params["Xs"], Readouts_idx=self.process_params["Readouts"], delimiter=self.process_params["delimiter"])
         self.rc_data.process_data(**self.process_params)
 
     def get_sample_spacing(self, period: int = 1) -> float:
