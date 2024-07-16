@@ -1,12 +1,12 @@
 """
 comment
 """
-
+import numpy as np
 import pandas as pd
 import os
 from scipy.signal import savgol_filter
 
-from ..DataHandling.Path_handlers import get_full_paths, get_raw_input_vals
+from ..DataHandling.Path_handlers import get_full_paths, identify_file_structure, get_raw_input_vals
 from ..DataHandling.File_handlers import load_csv
 from ..Maths.Maths_functions import normalize_list
 
@@ -25,7 +25,7 @@ class Prepare():
         readout_xs (list): A list of readout values extracted from the dataset.
     """
     
-    def __init__(self, root_path: str):
+    def __init__(self, root_path: str, prefix: str):
         """
         Initializes the Prepare class with the root directory path of the data.
 
@@ -34,14 +34,17 @@ class Prepare():
         """
 
         self.root_path = root_path
-        self.full_path = get_full_paths(root_path)
+        self.prefix = prefix
+        self.full_path = get_full_paths(root_path,self.prefix)
+        self.ext = identify_file_structure(root_path)
         self.Xs_idx = ""
         self.Readouts_idx = ""
         self.rc_df = pd.DataFrame()
         self.scan_cols = []
         self.readout_xs = []
-
-    def create_experiment_df(self, Xs_idx: str, Readouts_idx: str, delimiter=",") -> None:
+        self.transpose = False
+    
+    def create_experiment_df(self, Xs_idx: str, Readouts_idx: str, delimiter: str = ",") -> None:
         """
         Creates a DataFrame for the experiment by combining data from multiple files.
 
@@ -56,11 +59,11 @@ class Prepare():
         self.Readouts_idx = Readouts_idx
 
         for idx, fpath in enumerate(self.full_path, start=1):
-            df = load_csv(fpath, delimiter=delimiter)[[Xs_idx, Readouts_idx]].rename(columns={Readouts_idx: f'Scan{idx}'})
+            df = load_csv(fpath, delimiter=delimiter)[[Xs_idx, Readouts_idx]].rename(columns={Readouts_idx: f'{self.prefix}{idx}'})
             dfs.append(df)
 
         self.rc_df = pd.concat(dfs, axis=1).loc[:,~pd.concat(dfs, axis=1).columns.duplicated()]
-        self.scan_cols = [col for col in self.rc_df.columns if "Scan" in col]
+        self.scan_cols = [col for col in self.rc_df.columns if "{self.prefix}" in col]
 
     def process_data(self, **kwargs: any) -> None:
         """
@@ -97,12 +100,15 @@ class Prepare():
 
         if kwargs.get('sample', False):
             self.rc_df = self.rc_df[::kwargs.get('sample_rate', 1)]
+        
+        if kwargs.get('transpose', False):
+            self.transpose = True
 
         self.readout_xs = self.rc_df[self.Xs_idx].values
         self.rc_df = self.rc_df.drop(columns=[self.Xs_idx])
 
         self.transpose_df()
-        # self.append_column("Inputs", get_raw_input_vals(self.root_path))
+        #self.append_column("Inputs", get_raw_input_vals(self.root_path,self.prefix))
         self.define_rc_readout()
 
     def transpose_df(self) -> None:
@@ -119,7 +125,13 @@ class Prepare():
             col_name (str): The name of the column to append.
             vals (list[any]): The values to append to the column.
         """
-        self.rc_df[col_name] = vals[:len(self.rc_df)]
+        
+        if self.transpose:
+            self.rc_df = self.rc_df.T
+            self.rc_df[col_name] = vals[:len(self.rc_df)]
+            self.rc_df = self.rc_df.T
+        else:
+            self.rc_df[col_name] = vals[:len(self.rc_df)]
 
     def define_rc_readout(self) -> None:
         """

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
@@ -24,9 +25,15 @@ class Perform():
         self.params = params
         rc_df = prepared_data.rc_df
         self.model = self.params["model"]
-        self.rc_readout = rc_df[self.prepared_data.rc_readout]
-        self.targets = rc_df['target']
-
+        self.transpose = prepared_data.transpose
+        
+        if self.transpose:
+            self.rc_readout = rc_df[self.prepared_data.rc_readout].T
+            self.targets = rc_df.loc['target']
+        else:
+            self.rc_readout = rc_df[self.prepared_data.rc_readout]
+            self.targets = rc_df['target']
+        
     def split_data(self) -> None:
         """
         Splits the data into training and testing sets based on the provided parameters.
@@ -45,6 +52,10 @@ class Perform():
             split_forecast()    
         else:
             split_transformation()
+
+        if self.transpose:
+            self.x_train = self.x_train.drop('target',axis=1)
+            self.x_test = self.x_test.drop('target',axis=1)
 
     def train_data(self) -> None:
         """

@@ -1,6 +1,7 @@
 from scipy import signal
 import numpy as np
 from ..Maths.Maths_functions import normalize_list
+import matplotlib.pyplot as plt
 
 pi = np.pi
 

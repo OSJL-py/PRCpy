@@ -2,21 +2,62 @@ import os
 import re
 from ..Utilities.sorting import natural_sort_key
 
-def get_directory_file_names(dir_path):
+# def get_directory_file_names(dir_path):
+
+#     if not os.path.isdir(dir_path):
+#         raise FileNotFoundError(f"The directory {dir_path} does not exist.")
+
+#     filenames = [fname for fname in os.listdir(dir_path) if "scan" in fname and os.path.isfile(os.path.join(dir_path, fname))]
+#     if not filenames:
+#         raise FileNotFoundError("No files containing 'scan' found in the directory.")
+
+#     filenames.sort(key=natural_sort_key)
+
+#     return filenames
+
+def get_directory_file_names(dir_path,prefix):
 
     if not os.path.isdir(dir_path):
         raise FileNotFoundError(f"The directory {dir_path} does not exist.")
 
-    filenames = [fname for fname in os.listdir(dir_path) if "scan" in fname and os.path.isfile(os.path.join(dir_path, fname))]
+    filenames = [fname for fname in os.listdir(dir_path) if "{}".format(prefix) in fname and os.path.isfile(os.path.join(dir_path, fname))]
     if not filenames:
-        raise FileNotFoundError("No files containing 'scan' found in the directory.")
+        raise FileNotFoundError("No files containing '{}' found in the directory.".format(prefix))
 
     filenames.sort(key=natural_sort_key)
 
     return filenames
 
-def get_full_paths(dir_path):
-    return [os.path.join(dir_path, fname) for fname in get_directory_file_names(dir_path)]
+def identify_file_structure(dir_path: str) -> None:
+
+    if not os.path.isdir(dir_path):
+        raise FileNotFoundError(f"The directory {dir_path} does not exist.")
+    
+    filenames = [fname for fname in os.listdir(dir_path)]
+    file_exts = []
+
+    for f in filenames:
+        file_exts.append(os.path.splitext(dir_path+'/'+f)[1])
+    
+    if len(filenames) == 0:
+        raise FileNotFoundError(f"Empty directory.")
+    elif len(filenames) == 1:
+        first_ext = file_exts[0]
+    else:
+        first_ext = file_exts[0]
+        for f in file_exts[1:]:
+            if f != first_ext:
+                raise FileNotFoundError(f"Not all file extensions are identical.")
+        
+    return first_ext
+
+
+
+def get_full_paths(dir_path,prefix):
+    return [os.path.join(dir_path, fname) for fname in get_directory_file_names(dir_path,prefix)]
+
+# def get_full_paths(dir_path):
+#     return [os.path.join(dir_path, fname) for fname in get_directory_file_names(dir_path)]
 
 def extract_file_params(fname, regex=r'[-]?\d+'):
     """
@@ -24,5 +65,5 @@ def extract_file_params(fname, regex=r'[-]?\d+'):
     """
     return re.findall(regex, fname)
 
-def get_raw_input_vals(dir_path):
-    return [float(".".join(extract_file_params(fname)[1:])) for fname in get_directory_file_names(dir_path)]
+def get_raw_input_vals(dir_path,prefix):
+    return [float(".".join(extract_file_params(fname)[1:])) for fname in get_directory_file_names(dir_path,prefix)]
