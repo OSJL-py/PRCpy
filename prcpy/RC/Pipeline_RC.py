@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from .Prepare_RC import Prepare
 from .Perform_RC import Perform
-from ..Maths.Maths_functions import get_sample_spacing, cov, estimator_capacity
+from ..Maths.Maths_functions import get_sample_spacing, estimator_capacity, linear_memory_curve
 
 from numpy.lib.stride_tricks import sliding_window_view
 
@@ -18,8 +18,18 @@ class Pipeline():
         self.rc_ml = None
         
         self.rc_data = Prepare(data_dir_path,prefix)
+        self.rc_data_copy = Prepare(data_dir_path,prefix)
+        
         self.rc_data.create_experiment_df(Xs_idx=self.process_params["Xs"], Readouts_idx=self.process_params["Readouts"], delimiter=self.process_params["delimiter"])
         self.rc_data.process_data(**self.process_params)
+        self.rc_data_copy.create_experiment_df(Xs_idx=self.process_params["Xs"], Readouts_idx=self.process_params["Readouts"], delimiter=self.process_params["delimiter"])
+        self.rc_data_copy.process_data(**self.process_params)
+
+    def get_df_length(self) -> int:
+        """
+        Returns the length RC dataframe.
+        """
+        return self.rc_data.target_length
 
     def get_sample_spacing(self, period: int = 1) -> float:
         """
@@ -32,6 +42,12 @@ class Pipeline():
         Defines the target values for the RC model.
         """
         self.rc_data.append_column("target", target)
+
+    def define_input(self, input_data: np.array) -> None:
+        """
+        Defines the input values for the RC model (needed for the NL & MC metrics).
+        """
+        self.input_data = input_data
         
     def setup_model(self, model: any) -> None:
         """
@@ -43,6 +59,9 @@ class Pipeline():
         """
         Runs the model. Split the data, train the model, and evaluate the model.
         """
+
+        print("*****Running PRCpy*****")
+        
         self.rc_ml = Perform(self.rc_data, rc_params)
         self.rc_ml.split_data()
         self.rc_ml.train_data()
@@ -75,36 +94,7 @@ class Pipeline():
         """
         return self.rc_data.rc_df
     
-    ################ New functions #######################
 
-    # def get_estimator_capacity(self) -> float:
-    #     """ Measures the quality of a linear estimator from a multivariate series
-    # 		to reconstruct a univariate series u
-
-    # 	:param u : univariate series to reconstruct
-    # 	:param X : multivariate series
-
-    # 	:return : Measure depicting the quality of the estimator bound by the
-    # 			  interval [0.0, 1.0].
-    # 	"""
-
-    #     u = self.rc_data.get_inputs()
-    #     X = self.rc_data.get_readout_xs()
-
-    #     n_train = int(u.shape[0] * 0.75)
-
-    #     u_train = u[:n_train]
-    #     X_train = X[:n_train]
-
-    #     u_test  = u[n_train:]
-    #     X_test  = X[n_train:]
-
-    #     estimator = LinearRegression().fit(X_train, u_train) 
-
-    #     u_pred = estimator.predict(X_test) # estimator reconstruction
-
-    #     return cov(u_test, u_pred)**2 / (np.var(u) * np.var(u_pred))
-    
     def get_non_linearity(self, k: int = 25) -> float:
         """ Measures the non-linearity of a system by approximating it as a LTI.
         The quality of the approximation is then measured to quantify the
@@ -118,19 +108,40 @@ class Pipeline():
         :return : value determining the non-linearity of the system bound by the
                     interval [0.0, 1.0]
         """
-        u = self.rc_data.rc_df
-        X = self.rc_data.get_readout_xs()#self.rc_data.get_readout_xs()
+        u = self.input_data
+
+        if self.rc_data.transpose:
+            X = np.array(self.rc_data_copy.rc_df).T
+        else:
+            X = np.array(self.rc_data_copy.rc_df)
 
         u_padded = np.pad(u, (k - 1), 'constant', constant_values=(0,0))
-
-        u_history = sliding_window_view(u_padded, k, axis=1)[:len(u)] # axis??
+        u_history = sliding_window_view(u_padded, k)[:len(u)]
 
         linearity = []
 
         for x in np.transpose(X):
-
              linearity.append(estimator_capacity(x, u_history))
-             #linearity.append(estimator_capacity(u_history,x))
 
         return 1 - np.mean(linearity)
+
+    def get_linear_memory_capacity(self, kmax: int = 22) -> float:
+        """ Linear memory capacity as defined by Herbert Jaeger
+
+        :param u : reservoir input series
+        :param X : reservoir output states
+
+        :return : total linear memory capacity
+        """
+        u = self.input_data
+
+        if self.rc_data.transpose:
+            X = np.array(self.rc_data_copy.rc_df).T
+        else:
+            X = np.array(self.rc_data_copy.rc_df) 
+
+        mc = linear_memory_curve(u, X, kmax)
+
+        return sum(mc), mc
+
 
