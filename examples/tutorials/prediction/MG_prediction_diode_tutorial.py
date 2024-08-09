@@ -36,7 +36,7 @@ if __name__ == "__main__":
     rc_pipeline = Pipeline(data_dir_path,prefix,process_params)
 
     # Mackey Glass target generation (prediction)
-    mg_path = "examples/data/chaos/mackey_glass_t17.npy"
+    mg_path = "examples/data_full/chaos/mackey_glass_t17.npy"
     target_values = get_npy_data(mg_path, norm=True)
     rc_pipeline.define_target(target_values)
 
