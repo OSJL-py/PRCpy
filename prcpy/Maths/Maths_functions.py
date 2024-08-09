@@ -30,7 +30,6 @@ def get_sample_spacing(df, period=1):
     spacing = np.linspace(0, 1, sample_rate, endpoint=True)
     return spacing
 
-###### New Functions #########
 def cov(X, Y):
     """ Covariance between random variables X and Y
 
@@ -66,10 +65,27 @@ def estimator_capacity(u, X):
     u_test  = u[n_train:]
     X_test  = X[n_train:]
 
-    print(X_train.shape,u_train.shape)
-
     estimator = LinearRegression().fit(X_train, u_train) 
 
     u_pred = estimator.predict(X_test) # estimator reconstruction
 
     return cov(u_test, u_pred)**2 / (np.var(u) * np.var(u_pred))
+
+def linear_memory_curve(u, X, kmax=50):
+    """ Linear memory cuvre as defined by Herbert Jaeger
+
+    :param u : reservoir input series
+    :param X : reservoir output states
+
+    :return : linear memory capacity at each delay interval
+    """
+    mc = []
+
+    for k in range(1, kmax):
+
+        u_k = u[:-k]  # truncated input
+        X_k = X[k:]   # delayed state trajectory
+
+        mc.append(estimator_capacity(u_k, X_k))
+
+    return mc
