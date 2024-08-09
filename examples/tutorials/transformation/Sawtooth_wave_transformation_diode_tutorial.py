@@ -7,12 +7,12 @@ sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
 from prcpy.RC.Pipeline_RC import *
 from prcpy.TrainingModels.RegressionModels import *
-from prcpy.Maths.Target_functions import get_sawtooth_waves
+from prcpy.Maths.Target_functions import generate_sine_wave, generate_sawtooth_wave
 from prcpy.DataHandling.Path_handlers import *
 
 if __name__ == "__main__":
 
-    data_dir_path = "examples/data/sine_mapping/diode"
+    data_dir_path = "examples/data_100/sine_mapping/diode"
     prefix = "scan"
 
     process_params = {
@@ -25,12 +25,15 @@ if __name__ == "__main__":
     rc_pipeline = Pipeline(data_dir_path,prefix,process_params)
 
     reservoir_df = rc_pipeline.rc_data.rc_df
-    #print(reservoir_df)
 
+    rc_pipeline.define_input(generate_sine_wave(501,10))
+    print(f"NL = {rc_pipeline.get_non_linearity()}")
+    
     # Square wave target generation (transformation)
-    period = 10
-    sample_spacing = rc_pipeline.get_sample_spacing(period)
-    target_values = get_sawtooth_waves(sample_spacing,period,norm=True)
+    num_periods = 10
+    length = rc_pipeline.get_df_length()
+    
+    target_values = generate_sawtooth_wave(length,num_periods)
     rc_pipeline.define_target(target_values)
 
     # Define model parameters

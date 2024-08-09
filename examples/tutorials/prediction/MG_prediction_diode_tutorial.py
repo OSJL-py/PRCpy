@@ -13,35 +13,34 @@ from prcpy.Maths.Target_functions import get_npy_data
 if __name__ == "__main__":
 
     # Loading data
-    data_dir_path = "examples\data_full\mg_mapping\Cu2OSeO3\skyrmion"
+    data_dir_path = "examples\data_100\mg_mapping\diode"
     prefix = "scan"
 
     process_params = {
-        "Xs": "Frequency",
-        "Readouts": "Spectra",
-        "remove_bg": True, 
-        "bg_fname": "BG_450mT_1_0to6_0GHz_4K.txt", 
-        "smooth": True, 
+        "Xs": "t",
+        "Readouts": "Voltage",
+        "remove_bg": False, 
+        "smooth": False, 
         "smooth_win": 51, 
         "smooth_rank": 4, 
         "cut_xs": False, 
         "x1": 2, 
         "x2": 5, 
         "normalize": False, 
-        "sample": True, 
-        "sample_rate": 16,
-        "delimiter": ',',
-        "transpose":False
+        "sample": False, 
+        "sample_rate": 13,
+        "delimiter": '\t',
+        "transpose": True
     }
 
     rc_pipeline = Pipeline(data_dir_path,prefix,process_params)
 
     # Mackey Glass target generation (prediction)
-    mg_path = "examples/data_full/chaos/mackey_glass_t17.npy"
+    mg_path = "examples/data/chaos/mackey_glass_t17.npy"
     target_values = get_npy_data(mg_path, norm=True)
     rc_pipeline.define_target(target_values)
 
-    rc_pipeline.define_input(target_values[:500])
+    rc_pipeline.define_input(target_values[:1000])
     print(f"NL = {rc_pipeline.get_non_linearity()}")
     print(f"LMC = {rc_pipeline.get_linear_memory_capacity()[0]}")
 

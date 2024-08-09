@@ -13,7 +13,7 @@ from prcpy.Maths.Target_functions import get_npy_data
 if __name__ == "__main__":
 
     # Loading data
-    data_dir_path = "examples\data\mg_mapping\capacitor_diode"
+    data_dir_path = "examples\data_100\mg_mapping\capacitor_diode"
     prefix = "scan"
 
     process_params = {
@@ -40,9 +40,13 @@ if __name__ == "__main__":
     target_values = get_npy_data(mg_path, norm=True)
     rc_pipeline.define_target(target_values)
 
+    rc_pipeline.define_input(target_values[:1000])
+    print(f"NL = {rc_pipeline.get_non_linearity()}")
+    print(f"LMC = {rc_pipeline.get_linear_memory_capacity()[0]}")
+
     # Define model parameters
     model_params = {
-        "alpha": 1e-3,
+        "alpha": 1e-1,
         "fit_intercept": True,
         "copy_X": True,
         "max_iter": None,
