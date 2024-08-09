@@ -46,11 +46,11 @@ POERTY: poetry update prcpy
 ```python
 from prcpy.RC import Pipeline
 from prcpy.TrainingModels.RegressionModels import define_Ridge
-from prcpy.Maths.Target_functions import get_mackey_glass, get_square_waves
+from prcpy.Maths.Target_functions import get_npy_data, generate_square_waves
 ```
 
 #### Define data directory and processing parameters
-**Note: Data files must contain _"scan"_ in their file names.**
+**Note: Data files must match the string specified by "prefix".**
 See [examples/data](examples/data) for example data files.
 ```python
 data_dir_path = "your/data/path"
