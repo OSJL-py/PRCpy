@@ -54,6 +54,7 @@ from prcpy.Maths.Target_functions import get_mackey_glass, get_square_waves
 See [examples/data](examples/data) for example data files.
 ```python
 data_dir_path = "your/data/path"
+prefix = "scan"
 process_params = {
     "Xs": "Frequency",
     "Readouts": "Spectra",
@@ -67,13 +68,14 @@ process_params = {
     "x2": 5,
     "normalize": False,
     "sample": True,
-    "sample_rate": 13
+    "sample_rate": 13,
+    "transpose": False
 }
 ```
 
 #### Create RC pipeline
 ```python
-rc_pipeline = Pipeline(data_dir_path, process_params)
+rc_pipeline = Pipeline(data_dir_path, prefix, process_params)
 ```
 
 #### Target generation
@@ -81,9 +83,9 @@ rc_pipeline = Pipeline(data_dir_path, process_params)
 ##### Transformation
 ```python
 
-period = 10
-sample_spacing = rc_pipeline.get_sample_spacing(period)
-target_values = get_square_waves(sample_spacing, period, norm=True)
+num_periods = 10
+length = rc_pipeline.get_df_length()
+target_values = generate_square_wave(length,num_periods)
 ```
 
 ##### Forecasting
