@@ -64,6 +64,11 @@ class Prepare():
 
         self.rc_df = pd.concat(dfs, axis=1).loc[:,~pd.concat(dfs, axis=1).columns.duplicated()]
         self.scan_cols = [col for col in self.rc_df.columns if "{self.prefix}" in col]
+        
+        if self.transpose:
+            self.target_length = self.rc_df.shape[1]
+        else:
+            self.target_length = self.rc_df.shape[0]
 
     def process_data(self, **kwargs: any) -> None:
         """
@@ -100,7 +105,7 @@ class Prepare():
 
         if kwargs.get('sample', False):
             self.rc_df = self.rc_df[::kwargs.get('sample_rate', 1)]
-        
+
         if kwargs.get('transpose', False):
             self.transpose = True
 
