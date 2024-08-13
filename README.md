@@ -139,7 +139,7 @@ results = rc_pipeline.get_rc_results()
 
 ## Authors & Maintainers
 
-We are a neuromorphic computing division within the [UCL Spintronics Group](https://www.ucl.ac.uk/spintronics/) at London Centre for Nanotechnology, University College London, UK. For any queries about PRCpy, please contact [Harry Youel] (harry.youel.19@ucl.ac.uk) or [Daniel Prestwood] (daniel.prestwood.22@ucl.ac.uk). 
+We are a neuromorphic computing division within the [UCL Spintronics Group](https://www.ucl.ac.uk/spintronics/) at London Centre for Nanotechnology, University College London, UK. For any queries about PRCpy, please contact Harry Youel (harry.youel.19@ucl.ac.uk) or Daniel Prestwood (daniel.prestwood.22@ucl.ac.uk). 
 
 ## Research enquries
 For collaborations or research enquires, please contact [Prof. Hide Kurebayashi](https://www.ucl.ac.uk/spintronics/people/hidekazu-kurebayashi).
