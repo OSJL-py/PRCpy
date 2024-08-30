@@ -26,7 +26,8 @@ if __name__ == "__main__":
         "cut_xs": False, 
         "x1": 2, 
         "x2": 5, 
-        "normalize": False, 
+        "normalize_local": False,
+        "normalize_global": False, 
         "sample": False, 
         "sample_rate": 13,
         "delimiter": '\t',
@@ -34,7 +35,7 @@ if __name__ == "__main__":
     }
 
     rc_pipeline = Pipeline(data_dir_path,prefix,process_params)
-
+    
     # Mackey Glass target generation (prediction)
     mg_path = "examples/data_full/chaos/mackey_glass_t17.npy"
     target_values = get_npy_data(mg_path, norm=True)
@@ -42,7 +43,7 @@ if __name__ == "__main__":
 
     rc_pipeline.define_input(target_values[:1000])
     print(f"NL = {rc_pipeline.get_non_linearity()}")
-    print(f"LMC = {rc_pipeline.get_linear_memory_capacity()[0]}")
+    print(f"LMC = {rc_pipeline.get_linear_memory_capacity(kmax=12, remove_auto_correlation=True)[0]}")
 
     # Define model parameters
     model_params = {

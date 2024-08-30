@@ -27,11 +27,12 @@ if __name__ == "__main__":
         "cut_xs": False, 
         "x1": 2, 
         "x2": 5, 
-        "normalize": False, 
+        "normalize_local": False,
+        "normalize_global": True, 
         "sample": True, 
         "sample_rate": 16,
         "delimiter": ',',
-        "transpose":False
+        "transpose": False
     }
 
     rc_pipeline = Pipeline(data_dir_path,prefix,process_params)
@@ -43,7 +44,7 @@ if __name__ == "__main__":
 
     rc_pipeline.define_input(target_values[:500])
     print(f"NL = {rc_pipeline.get_non_linearity()}")
-    print(f"LMC = {rc_pipeline.get_linear_memory_capacity()[0]}")
+    print(f"LMC = {rc_pipeline.get_linear_memory_capacity(kmax=12, remove_auto_correlation=True)[0]}")
 
     # Define model parameters
     model_params = {

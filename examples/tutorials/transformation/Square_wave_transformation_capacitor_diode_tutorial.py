@@ -19,8 +19,13 @@ if __name__ == "__main__":
     "Xs": "t" ,
     "Readouts":"Voltage" ,
     "delimiter": "\t",
-    "normalize":True,
-    "transpose":True}
+    "remove_bg": False,
+    "smooth": False,
+    "cut_xs": False,
+    "sample": False,
+    "normalize_local": False,
+    "normalize_global": False,
+    "transpose": True}
 
     rc_pipeline = Pipeline(data_dir_path,prefix,process_params)
 
