@@ -1,35 +1,34 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-import os
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
 from prcpy.RC.Pipeline_RC import *
 from prcpy.TrainingModels.RegressionModels import *
-from prcpy.Maths.Target_functions import get_npy_data
+from prcpy.Maths.Target_functions import generate_square_wave
+from prcpy.DataHandling.Path_handlers import *
 
 if __name__ == "__main__":
 
-    # Loading data
-    data_dir_path = "examples\data_full\mg_mapping\Cu2OSeO3\skyrmion"
+    data_dir_path = "examples\data_100\sine_mapping\Cu2OSeO3\conical"
     prefix = "scan"
 
     process_params = {
         "Xs": "Frequency",
         "Readouts": "Spectra",
-        "remove_bg": True, 
+        "remove_bg": False, 
         "bg_fname": "BG_450mT_1_0to6_0GHz_4K.txt", 
-        "smooth": True, 
+        "smooth": False, 
         "smooth_win": 51, 
         "smooth_rank": 4, 
         "cut_xs": False, 
         "x1": 2, 
         "x2": 5, 
         "normalize_local": False,
-        "normalize_global": True, 
-        "sample": True, 
+        "normalize_global": False, 
+        "sample": False, 
         "sample_rate": 16,
         "delimiter": ',',
         "transpose": False
@@ -37,25 +36,25 @@ if __name__ == "__main__":
 
     rc_pipeline = Pipeline(data_dir_path,prefix,process_params)
 
-    # Mackey Glass target generation (prediction)
-    mg_path = "examples/data_full/chaos/mackey_glass_t17.npy"
-    target_values = get_npy_data(mg_path, norm=True)
-    rc_pipeline.define_target(target_values)
+    reservoir_df = rc_pipeline.rc_data.rc_df
 
-    rc_pipeline.define_input(target_values[:500])
-    print(f"NL = {rc_pipeline.get_non_linearity()}")
-    print(f"LMC = {rc_pipeline.get_linear_memory_capacity(kmax=12, remove_auto_correlation=True)[0]}")
+    # Square wave target generation (transformation)
+    num_periods = 10
+    length = rc_pipeline.get_df_length()
+
+    target_values = generate_square_wave(length,num_periods)
+    rc_pipeline.define_target(target_values)
 
     # Define model parameters
     model_params = {
-        "alpha": 1e-1,
-        "fit_intercept": True,
-        "copy_X": True,
-        "max_iter": None,
-        "tol": 0.0001,
-        "solver": "auto",
-        "positive": False,
-        "random_state": None,
+    "alpha": 1e-1 ,
+    "fit_intercept": True ,
+    "copy_X": True ,
+    "max_iter": None ,
+    "tol": 0.0001 ,
+    "solver": "auto",
+    "positive": False ,
+    "random_state": None
     }
 
     # Define the training model
@@ -63,30 +62,27 @@ if __name__ == "__main__":
 
     # Define the RC parameters
     rc_params = {
-        "model": model,
-        "tau": 10,
-        "test_size": 0.3,
-        "error_type": "MSE"
-    }
+    "model": model ,
+    "test_size": 0.3 ,
+    "error_type": "MSE",
+    "tau":0} # transformation task
 
-    # Run the pipeline
     rc_pipeline.run(rc_params)
 
-    # Get the results
     results = rc_pipeline.get_rc_results()
-
+    
     # Results
-    train_ts = np.arange(results["train"]["y_train"].shape[0])
-    test_ts = np.arange(results["test"]["y_test"].shape[0])
     train_ys = results["train"]["y_train"]
     test_ys = results["test"]["y_test"]
     train_preds = results["train"]["train_pred"]
     test_preds = results["test"]["test_pred"]
-
-    # Errors
     train_MSE = results["error"]["train_error"]
     test_MSE = results["error"]["test_error"]
+    
+    train_ts = np.arange(train_ys.shape[0])
+    test_ts = np.arange(test_ys.shape[0])
 
+    # Errors
     print(f"Training MSE = {format(train_MSE, '0.3e')}")
     print(f"Testing MSE = {format(test_MSE, '0.3e')}")
 
@@ -109,5 +105,4 @@ if __name__ == "__main__":
     fig.tight_layout()
 
     plt.show()
-
-
+        

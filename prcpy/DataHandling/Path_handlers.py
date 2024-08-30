@@ -28,31 +28,6 @@ def get_directory_file_names(dir_path,prefix):
 
     return filenames
 
-def identify_file_structure(dir_path: str) -> None:
-
-    if not os.path.isdir(dir_path):
-        raise FileNotFoundError(f"The directory {dir_path} does not exist.")
-    
-    filenames = [fname for fname in os.listdir(dir_path)]
-    file_exts = []
-
-    for f in filenames:
-        file_exts.append(os.path.splitext(dir_path+'/'+f)[1])
-    
-    if len(filenames) == 0:
-        raise FileNotFoundError(f"Empty directory.")
-    elif len(filenames) == 1:
-        first_ext = file_exts[0]
-    else:
-        first_ext = file_exts[0]
-        for f in file_exts[1:]:
-            if f != first_ext:
-                raise FileNotFoundError(f"Not all file extensions are identical.")
-        
-    return first_ext
-
-
-
 def get_full_paths(dir_path,prefix):
     return [os.path.join(dir_path, fname) for fname in get_directory_file_names(dir_path,prefix)]
 

@@ -13,7 +13,7 @@ from prcpy.Maths.Target_functions import get_npy_data
 if __name__ == "__main__":
 
     # Loading data
-    data_dir_path = "examples\data_full\mg_mapping\Cu2OSeO3\skyrmion"
+    data_dir_path = "examples\data_full\mg_mapping\Cu2OSeO3\conical"
     prefix = "scan"
 
     process_params = {

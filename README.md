@@ -1,4 +1,4 @@
-# PRCpy: A Python Library for Physical Reservoir Computing
+# PRCpy: A Python Package for Processing of Physical Reservoir Computing
 
 PRCpy is a Python package designed to ease experimental data processing for physical reservoir computing.
 
@@ -66,7 +66,8 @@ process_params = {
     "cut_xs": False,
     "x1": 2,
     "x2": 5,
-    "normalize": False,
+    "normalize_local": False,
+    "normalize_global": False,
     "sample": True,
     "sample_rate": 13,
     "transpose": False

@@ -13,6 +13,14 @@ class Pipeline():
     """
 
     def __init__(self, data_dir_path: str, prefix: str, process_params: dict[str, any]):
+        
+        process_param_list = ["remove_bg", "smooth", "cut_xs", "normalize_local", "normalize_global", "sample"]
+
+        if process_params["transpose"] == True:
+            for item in process_param_list:
+                if process_params[item] == True:
+                    raise ValueError(f"transpose==True and {item}==True are not compatible.")
+        
         self.process_params = process_params
         self.prepared_data = None
         self.rc_ml = None
@@ -20,9 +28,10 @@ class Pipeline():
         self.rc_data = Prepare(data_dir_path,prefix)
         self.rc_data_copy = Prepare(data_dir_path,prefix)
         
-        self.rc_data.create_experiment_df(Xs_idx=self.process_params["Xs"], Readouts_idx=self.process_params["Readouts"], delimiter=self.process_params["delimiter"])
+        self.rc_data.create_experiment_df(Xs_idx=self.process_params["Xs"], Readouts_idx=self.process_params["Readouts"], delimiter=self.process_params["delimiter"], transpose=self.process_params["transpose"])
         self.rc_data.process_data(**self.process_params)
-        self.rc_data_copy.create_experiment_df(Xs_idx=self.process_params["Xs"], Readouts_idx=self.process_params["Readouts"], delimiter=self.process_params["delimiter"])
+
+        self.rc_data_copy.create_experiment_df(Xs_idx=self.process_params["Xs"], Readouts_idx=self.process_params["Readouts"], delimiter=self.process_params["delimiter"], transpose=self.process_params["transpose"])
         self.rc_data_copy.process_data(**self.process_params)
 
     def get_df_length(self) -> int:
@@ -125,22 +134,32 @@ class Pipeline():
 
         return 1 - np.mean(linearity)
 
-    def get_linear_memory_capacity(self, kmax: int = 22) -> float:
+    def get_linear_memory_capacity(self, kmax: int = 25, remove_auto_correlation: bool = False) -> float:
         """ Linear memory capacity as defined by Herbert Jaeger
 
         :param u : reservoir input series
-        :param X : reservoir output states
+        :param X_res : reservoir output states
+        :param X_auto : target values for auto correlation subtraction
 
         :return : total linear memory capacity
         """
         u = self.input_data
-
+        
+        if remove_auto_correlation:
+            X_auto = self.input_data.reshape(-1,1)
+        
         if self.rc_data.transpose:
-            X = np.array(self.rc_data_copy.rc_df).T
+            X_res = np.array(self.rc_data_copy.rc_df).T
         else:
-            X = np.array(self.rc_data_copy.rc_df) 
+            X_res = np.array(self.rc_data_copy.rc_df) 
 
-        mc = linear_memory_curve(u, X, kmax)
+        mc_res = linear_memory_curve(u, X_res, kmax)
+
+        if remove_auto_correlation:
+            mc_auto = linear_memory_curve(u, X_auto, kmax)
+            mc = np.array(mc_res) - np.array(mc_auto)
+        else:
+            mc = mc_res
 
         return sum(mc), mc
 
