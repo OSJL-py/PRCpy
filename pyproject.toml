@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "prcpy"
-version = "0.1.12"
+version = "0.1.13"
 description = ""
 authors = ["Harry Youel <harry.youel.19@ucl.ac.uk>"]
 readme = "README.md"
@@ -12,7 +12,6 @@ matplotlib = "^3.8.3"
 scipy = "^1.12.0"
 scikit-learn = "^1.4.1.post1"
 pyarrow = "^15.0.0"
-
 
 [build-system]
 requires = ["poetry-core"]
