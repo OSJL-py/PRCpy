@@ -30,6 +30,11 @@ PIP: pip install prcpy --upgrade
 POERTY: poetry update prcpy
 ```
 
+Check your version by running:
+```python
+prcpy.__version___
+```
+
 ## General usage overview
 
 1. Define data path 
@@ -58,7 +63,7 @@ prefix = "scan"
 process_params = {
     "Xs": "Frequency",
     "Readouts": "Spectra",
-    "remove_bg": True,
+    "remove_bg": False,
     "bg_fname": "background_data.txt",
     "smooth": False,
     "smooth_win": 51,
@@ -68,7 +73,7 @@ process_params = {
     "x2": 5,
     "normalize_local": False,
     "normalize_global": False,
-    "sample": True,
+    "sample": False,
     "sample_rate": 13,
     "transpose": False
 }
@@ -130,12 +135,18 @@ rc_params = {
 
 #### Run RC
 ```python
-rc_pipeline.run()
+rc_pipeline.run(rc_params)
 ```
 
 #### Get results
 ```python
 results = rc_pipeline.get_rc_results()
+```
+
+#### Get reservoir metrics
+```python
+nl = rc_pipeline.get_non_linearity()
+lmc = rc_pipeline.get_linear_memory_capacity()[0]
 ```
 
 ## Authors & Maintainers
