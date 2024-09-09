@@ -46,7 +46,7 @@ POERTY: poetry update prcpy
 ```python
 from prcpy.RC import Pipeline
 from prcpy.TrainingModels.RegressionModels import define_Ridge
-from prcpy.Maths.Target_functions import get_npy_data, generate_square_waves
+from prcpy.Maths.Target_functions import get_npy_data, generate_square_wave
 ```
 
 #### Define data directory and processing parameters
