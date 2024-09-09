@@ -145,6 +145,8 @@ results = rc_pipeline.get_rc_results()
 
 #### Get reservoir metrics
 ```python
+rc_pipeline.define_input(target_values)
+
 nl = rc_pipeline.get_non_linearity()
 lmc = rc_pipeline.get_linear_memory_capacity()[0]
 ```

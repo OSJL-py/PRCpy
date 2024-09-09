@@ -13,7 +13,6 @@ class Pipeline():
     """
 
     def __init__(self, data_dir_path: str, prefix: str, process_params: dict[str, any]):
-        
         process_param_list = ["remove_bg", "smooth", "cut_xs", "normalize_local", "normalize_global", "sample"]
 
         if process_params["transpose"] == True:
