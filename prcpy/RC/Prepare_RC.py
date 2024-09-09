@@ -118,10 +118,16 @@ class Prepare():
         #self.append_column("Inputs", get_raw_input_vals(self.root_path,self.prefix))
         self.define_rc_readout()
     
+    #def normalize_list_global(self, x, y1=0, y2=1):
+    #    norm_list = (x - self.rc_df[self.scan_cols].values.flatten().min()) / (
+    #            self.rc_df[self.scan_cols].values.flatten().max() - self.rc_df[
+    #            self.scan_cols].values.flatten().min()) * (y2 - y1) + y1
+    #    return norm_list
+
     def normalize_list_global(self, x, y1=0, y2=1):
-        norm_list = (x - self.rc_df[self.scan_cols].values.flatten().min()) / (
-                self.rc_df[self.scan_cols].values.flatten().max() - self.rc_df[
-                self.scan_cols].values.flatten().min()) * (y2 - y1) + y1
+        min_val = self.rc_df[self.scan_cols].values.flatten().min()
+        max_val = self.rc_df[self.scan_cols].values.flatten().max()
+        norm_list = (x - min_val) / (max_val - min_val) * (y2 - y1) + y1
         return norm_list
 
     def transpose_df(self) -> None:

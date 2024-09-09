@@ -7,7 +7,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
 from prcpy.RC.Pipeline_RC import *
 from prcpy.TrainingModels.RegressionModels import *
-from prcpy.Maths.Target_functions import get_sawtooth_waves, generate_sawtooth_wave
+from prcpy.Maths.Target_functions import generate_sawtooth_wave
 from prcpy.DataHandling.Path_handlers import *
 
 if __name__ == "__main__":
