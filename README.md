@@ -32,7 +32,7 @@ POERTY: poetry update prcpy
 
 Check your version by running:
 ```python
-prcpy.__version___
+prcpy.__version__
 ```
 
 ## General usage overview
