@@ -158,14 +158,14 @@ For collaborations or research enquires, please contact [Prof. Hide Kurebayashi]
 ## Find out more on PRC
 
 ### PRCpy
+- Refer to the [PRCpy manual paper](PRCpy_manual.pdf) for detailed tutorial use of PRCpy.
 - Refer to [PRCpy documentation [TBA]]() for detailed package documentation.
-- Refer to the [PRCpy tutorial paper [TBA]]() for detailed tutorial use of PRCpy.
 
 ### RC publications from the group
 
 #### Research articles
 - [Task-adaptive physical reservoir computing](https://www.nature.com/articles/s41563-023-01698-8), O. Lee, et al., Nature Materials (2024).
-- [Neuromorphic Few-Shot Learning: Generalization in Multilayer Physical Neural Networks](https://arxiv.org/abs/2211.06373), K. Stenning, et al., arXiv (2023).
+- [Neuromorphic overparameterisation and few-shot learning in multilayer physical neural networks](https://www.nature.com/articles/s41467-024-50633-1), K. Stenning, et al., Nature Communications (2024).
 - [Reconfigurable training and reservoir computing in an artificial spin-vortex ice via spin-wave fingerprinting](https://www.nature.com/articles/s41565-022-01091-7), J. Gartside, et al., Nature Nanotechnology (2022).
 
 #### Review/perspectives
