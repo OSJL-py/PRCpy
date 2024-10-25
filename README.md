@@ -158,7 +158,8 @@ For collaborations or research enquires, please contact [Prof. Hide Kurebayashi]
 ## Find out more on PRC
 
 ### PRCpy
-- Refer to the [PRCpy manual paper](PRCpy_manual.pdf) for detailed tutorial use of PRCpy.
+- Refer to the [PRCpy manual paper](https://arxiv.org/abs/2410.18356) for detailed tutorial use of PRCpy.
+- Please cite using use [BibTex](prcpy_cite.bib) if you use PRCpy for any publications.
 - Refer to [PRCpy documentation [TBA]]() for detailed package documentation.
 
 ### RC publications from the group
